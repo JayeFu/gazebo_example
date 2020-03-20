@@ -1,0 +1,36 @@
+/mbx:
+  joint_state_controller:
+    type: "joint_state_controller/JointStateController"
+    publish_rate: 50
+
+
+  wx_controller:
+    type: "position_controllers/JointPositionController"
+    joint: /mbx/ur2wx
+    pid: 
+      p: 100.0
+      i: 0.01
+      d: 10.0
+
+  arm_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - /mbx/shoulder_pan_joint
+      - /mbx/shoulder_lift_joint
+      - /mbx/elbow_joint
+      - /mbx/wrist_1_joint
+      - /mbx/wrist_2_joint
+      - /mbx/wrist_3_joint
+    constraints:
+        goal_time: 0.6
+        stopped_velocity_tolerance: 0.05
+        shoulder_pan_joint: {trajectory: 0.1, goal: 0.1}
+        shoulder_lift_joint: {trajectory: 0.1, goal: 0.1}
+        elbow_joint: {trajectory: 0.1, goal: 0.1}
+        wrist_1_joint: {trajectory: 0.1, goal: 0.1}
+        wrist_2_joint: {trajectory: 0.1, goal: 0.1}
+        wrist_3_joint: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
+

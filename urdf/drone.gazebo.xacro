@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="drone_gazebo" params="prefix hw_interface">
+
+    <!--transmission-->
+    <transmission name="${prefix}link1_to_link2_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}link1_to_link2">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}link1_to_link2_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}link2_to_link3_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}link2_to_link3">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}link2_to_link3_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}link3_to_link4_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}link3_to_link4">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}link3_to_link4_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}link4_to_drone_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}link4_to_drone">
+        <hardwareInterface>${hw_interface}</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}link4_to_drone_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <!--Link color-->
+    <gazebo reference="${prefix}itself">
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <!-- ros_control plugin -->
+    <gazebo>
+      <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/drone</robotNamespace>
+        <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      </plugin>
+    </gazebo>
+
+  </xacro:macro>
+
+  <!--color definition-->
+  <material name="orange">
+    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+  </material>
+
+</robot>

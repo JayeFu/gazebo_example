@@ -1,0 +1,24 @@
+/drone:
+  joint_state_controller:
+    type: "joint_state_controller/JointStateController"
+    publish_rate: 50
+
+
+  drone_mech_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - /drone/link1_to_link2
+      - /drone/link2_to_link3
+      - /drone/link3_to_link4
+      - /drone/link4_to_drone
+    constraints:
+        goal_time: 0.6
+        stopped_velocity_tolerance: 0.05
+        link1_to_link2: {trajectory: 0.1, goal: 0.1}
+        link2_to_link3: {trajectory: 0.1, goal: 0.1}
+        link3_to_link4: {trajectory: 0.1, goal: 0.1}
+        link4_to_itself: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  50
+    action_monitor_rate: 10
+

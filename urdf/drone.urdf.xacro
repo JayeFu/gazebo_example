@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<robot name="drone" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--Other files to be included-->
+  <xacro:include filename="$(find gazebo_example)/urdf/drone.gazebo.xacro" />
+
+  <!--Some xacros-->
+  <xacro:property name="prefix" value="/drone/" />
+  
+  <!--fixed frame odom, also used in fwx-->
+  <link name="world"/>
+
+  <joint name="${prefix}world_to_link1" type="fixed">
+    <parent link="world"/>
+    <child link="${prefix}link1"/>
+    <origin xyz="0 5 -0.1"/>
+  </joint>
+
+
+  <!--link1-->
+  <link name="${prefix}link1">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="5 0.2 0.2" />
+      </geometry>
+      <material name="Cyan">
+        <color rgba="0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="${prefix}link1_to_link2" type="prismatic">
+    <parent link="${prefix}link1"/>
+    <child link="${prefix}link2"/>
+    <origin xyz="0 0 1.6"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="1000.0" lower="-2.5" upper="2.5" velocity="0.1"/>
+  </joint>
+
+  <!--link2-->
+  <link name="${prefix}link2">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.2 0.2 3" />
+      </geometry>
+      <material name="Cyan">
+        <color rgba="0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="${prefix}link2_to_link3" type="prismatic">
+    <parent link="${prefix}link2"/>
+    <child link="${prefix}link3"/>
+    <origin xyz="0 0 1.6"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="1000.0" lower="-5" upper="5" velocity="0.1"/>
+  </joint>
+
+  <!--link3-->
+  <link name="${prefix}link3">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.2 10 0.2" />
+      </geometry>
+      <material name="Cyan">
+        <color rgba="0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="${prefix}link3_to_link4" type="prismatic">
+    <parent link="${prefix}link3"/>
+    <child link="${prefix}link4"/>
+    <origin xyz="0 -5 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="-2" upper="2" velocity="0.1"/>
+  </joint>
+
+  <!--link4-->
+  <link name="${prefix}link4">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.2 0.2 4" />
+      </geometry>
+      <material name="Cyan">
+        <color rgba="0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="${prefix}link4_to_drone" type="continuous">
+    <parent link="${prefix}link4"/>
+    <child link="${prefix}itself"/>
+    <origin xyz="0 0 -2.04"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <!--drone itself-->
+  <link name="${prefix}itself">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="1"  ixy="0"  ixz="0" iyy="1" iyz="0" izz="1" />
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://gazebo_example/meshes/drone.STL" />
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.2 0.08 0.08" />
+      </geometry>
+    </collision>>
+
+  </link>
+
+  <xacro:drone_gazebo prefix="${prefix}"
+    hw_interface="hardware_interface/PositionJointInterface"
+  />
+
+</robot>
