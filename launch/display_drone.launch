@@ -27,24 +27,28 @@
 <!---=================================================================================================================================================================-->
 
   <!--Robot description to param server-->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find gazebo_example)/urdf/drone.urdf.xacro'"/>
+  <group ns='drone'>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find gazebo_example)/urdf/drone.urdf.xacro'"/>
 
-  <node name="drone_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
-  args=" -urdf -param robot_description -model drone" />
-  
-  <node name="drone_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-    <remap from="/joint_states" to="/drone/joint_states"/>
-  </node>
+    <node name="drone_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+    args=" -urdf -param robot_description -model drone" />
 
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
+    
+    <node name="drone_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <remap from="/joint_states" to="/drone/joint_states"/>
+    </node>
 
-  <rosparam file="$(find gazebo_example)/config/drone.yaml" command="load"/>
-  <node name="drone_controller_spawner" pkg="controller_manager" type="spawner" 
-    args="--namespace=/drone
-      joint_state_controller
-      drone_mech_controller"
-    respawn="false" output="screen"
-  />
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/-->
+
+    <rosparam file="$(find gazebo_example)/config/drone.yaml" command="load" ns="/drone"/>
+    <!-- CAUTION I deleted the someting before namespace in controller spawner-->
+    <node name="drone_controller_spawner" pkg="controller_manager" type="spawner" 
+      args="--namespace=/drone
+        joint_state_controller
+        drone_mech_controller"
+      respawn="false" output="screen"
+    />
+  </group>
 
 
 
