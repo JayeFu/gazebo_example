@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!--should be configured in simulation.launch-->
+  <arg name="world_name_global" default="worlds/empty.world"/>
+
+  <!--rviz config -->
+  <arg name="rvizconfig_mbx" default="$(find gazebo_example)/rviz/arm_urdf.rviz" />
+  <arg name="rvizconfig_drone" default="$(find gazebo_example)/rviz/drone_urdf.rviz" />
+
+<!---=================================================================================================================================================================-->
+
+ <!--Gazebo Variables--> 
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name_global)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+<!---=================================================================================================================================================================-->
+  <group ns="mbx">
+    <!--Robot description to param server-->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find gazebo_example)/urdf/mbx_arm_model.urdf.xacro'"/>
+    
+    <node name="mbx_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+    args=" -urdf -param robot_description -model mbx" />
+    
+    
+    <node name="mbx_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <remap from="/joint_states" to="/mbx/joint_states"/>
+    </node>
+
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/-->
+
+    <rosparam file="$(find gazebo_example)/config/wx_arm.yaml" command="load" ns="/mbx"/>
+    <node name="mbx_controller_spawner" pkg="controller_manager" type="spawner" 
+      args="--namespace=/mbx
+        joint_state_controller
+        wx_controller 
+        arm_controller"  
+      respawn="false" output="screen"
+    />
+  </group>
+
+  <group ns='drone'>
+    <param name="robot_description" command="$(find xacro)/xacro '$(find gazebo_example)/urdf/drone.urdf.xacro'"/>
+
+    <node name="drone_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+    args=" -urdf -param robot_description -model drone" />
+
+    
+    <node name="drone_robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+      <remap from="/joint_states" to="/drone/joint_states"/>
+    </node>
+
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/-->
+
+    <rosparam file="$(find gazebo_example)/config/drone.yaml" command="load" ns="/drone"/>
+    <node name="drone_controller_spawner" pkg="controller_manager" type="spawner" 
+      args="--namespace=/drone
+        joint_state_controller
+        drone_mech_controller"
+      respawn="false" output="screen"
+    />
+  </group>
+
+<!--node name="should_lift_node" pkg="gazebo_example" type="move_arm.py" output="screen"/-->
+
+<!--node name="wx_rotate_node" pkg="gazebo_example" type="wx_rotate_node">
+  <remap from="command" to="/mbx/wx_controller/command"/>
+</node-->
+
+
+<!---=================================================================================================================================================================-->
+
+</launch>

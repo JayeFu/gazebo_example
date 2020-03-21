@@ -41,7 +41,6 @@
     <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/-->
 
     <rosparam file="$(find gazebo_example)/config/drone.yaml" command="load" ns="/drone"/>
-    <!-- CAUTION I deleted the someting before namespace in controller spawner-->
     <node name="drone_controller_spawner" pkg="controller_manager" type="spawner" 
       args="--namespace=/drone
         joint_state_controller
