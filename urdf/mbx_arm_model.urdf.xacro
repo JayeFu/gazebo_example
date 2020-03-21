@@ -67,7 +67,7 @@
      	    </geometry>
             <origin rpy="1.570796 0 0" xyz="0 0 0"/>
         </collision>
-        <xacro:default_inertial mass="30.0"/>
+        <xacro:default_inertial mass="80.0"/>
 
     </link>
 
@@ -541,8 +541,8 @@
   <gazebo>
     <plugin name="base_controller" filename="libgazebo_ros_planar_move.so">
       <commandTopic>cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
+      <odometryTopic>world</odometryTopic>
+      <odometryFrame>world</odometryFrame>
       <odometryRate>20.0</odometryRate>
       <robotBaseFrame>${ns}base_link</robotBaseFrame>
     </plugin>
