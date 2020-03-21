@@ -5,7 +5,7 @@
   <arg name="world_name_global" default="worlds/empty.world"/>
 
   <!--To move robot using teleop_keyboard-->
-  <arg name="software_joystick" value="true"/>
+  <arg name="software_joystick" value="false"/>
 
 <!---=================================================================================================================================================================-->
 
