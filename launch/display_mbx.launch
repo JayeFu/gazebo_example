@@ -37,7 +37,7 @@
       <remap from="/joint_states" to="/mbx/joint_states"/>
     </node>
 
-    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
 
     <rosparam file="$(find gazebo_example)/config/wx_arm.yaml" command="load" ns="/mbx"/>
     <!-- Also note I deleted sth before namespace in controller_manager spawner-->
