@@ -6,13 +6,13 @@
   iiwa_controller:
     type: position_controllers/JointTrajectoryController
     joints:
-      - joint_a1
-      - joint_a2
-      - joint_a3
-      - joint_a4
-      - joint_a5
-      - joint_a6
-      - joint_a7
+      - /iiwa/joint_a1
+      - /iiwa/joint_a2
+      - /iiwa/joint_a3
+      - /iiwa/joint_a4
+      - /iiwa/joint_a5
+      - /iiwa/joint_a6
+      - /iiwa/joint_a7
     constraints:
       goal_time: 0.6
       stopped_velocity_tolerance: 0.05
