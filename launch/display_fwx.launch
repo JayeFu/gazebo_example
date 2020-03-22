@@ -38,6 +38,7 @@
       <remap from="/joint_states" to="/iiwa/joint_states"/>
     </node>
 
+    <!--note I deleted sth before namespace in spawner-->
     <rosparam file="$(find gazebo_example)/config/iiwa_controller.yaml" command="load" ns="/iiwa"/>
 
     <node name="iiwa_controller_spawner" pkg="controller_manager" type="spawner" 
