@@ -35,7 +35,7 @@
 
   <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /-->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
-    <param name="publish_frequency" value="20.0"/>
+    <remap from="/joint_states" to="/iiwa/joint_states"/>
   </node>
 
   <rosparam file="$(find gazebo_example)/config/iiwa_controller.yaml" command="load"/>
