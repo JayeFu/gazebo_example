@@ -5,7 +5,7 @@
   <arg name="world_name_global" default="worlds/empty.world"/>
 
   <!--To move robot using teleop_keyboard-->
-  <arg name="software_joystick" value="true"/>
+  <arg name="software_joystick" value="false"/>
 
 <!---=================================================================================================================================================================-->
 
@@ -28,21 +28,24 @@
 <!---=================================================================================================================================================================-->
 
   <!--Robot description to param server-->
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find kuka_lbr_iiwa_support)/urdf/lbr_iiwa_14_r820.xacro'"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find gazebo_example)/urdf/lbr_iiwa_14_r820.xacro'"/>
 
   <node name="mmo_700_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
   args="-x -2.5 -urdf -param robot_description -model fwx" />
 
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
-  <param name="publish_frequency" value="20.0"/>
+  <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="publish_frequency" value="20.0"/>
   </node>
 
+  <rosparam file="$(find gazebo_example)/config/iiwa_controller.yaml" command="load"/>
 
-<!--include file="$(find neo_simulation)/config/controller/launch/controller_utils.launch"/-->
-
-<rosparam file="$(find iiwa_moveit)/config/iiwa_controller.yaml" command="load"/>
-<node name="iiwa_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn iiwa_controller" respawn="false" output="screen"/>
+  <node name="iiwa_controller_spawner" pkg="controller_manager" type="spawner" 
+    args="--namespace=/iiwa
+      joint_state_controller
+      iiwa_controller"
+    respawn="false" output="screen"
+  />
 
 
 <!---=================================================================================================================================================================-->
