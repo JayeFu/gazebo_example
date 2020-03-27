@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:property name="ns" value="/mbx/" />
+    <xacro:property name="ns" value="" />
     <!-- variable -->
     <xacro:property name="PI" value="3.1415926"/>
     <xacro:property name="car_width" value="0.510"/>
@@ -532,8 +532,8 @@
     <!-- ros_control plugin -->
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-            <robotNamespace>/mbx</robotNamespace>
-            <robotParam>/mbx/robot_description</robotParam>
+            <robotNamespace>/</robotNamespace>
+            <robotParam>robot_description</robotParam>
             <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
         </plugin>
     </gazebo>
