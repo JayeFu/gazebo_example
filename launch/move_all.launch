@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+    <!--move mbx ur-10 arm-->
+    <node name="move_arm" pkg = "gazebo_example" type = "move_arm.py"/>
+
+    <!--move fwx iiwa arm-->
+    <node name="move_iiwa" pkg = "gazebo_example" type = "move_iiwa.py"/>
+
+    <!--move mbx ur-10 arm-->
+    <node name="move_drone" pkg = "gazebo_example" type = "move_drone.py"/>
+
+</launch>
